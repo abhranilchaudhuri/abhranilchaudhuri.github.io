@@ -1,0 +1,1657 @@
+/* ============================================================
+   ABHRANIL CHAUDHURI — PRESENTATION PORTFOLIO  v2
+   Stack panels · Folder effect · Grain textures
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --font-display:'Hanken Grotesk',sans-serif;
+  --font-serif:'Hanken Grotesk',sans-serif;
+  --font-body:'Hanken Grotesk',sans-serif;
+  --ink:#1F2A1C;
+  --ink-light:rgba(31,42,28,.72);
+  --white:#FFFFFF;
+  --dur:0.8s;
+  --ease:cubic-bezier(0.65,0,0.35,1);
+}
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);font-size:16px;line-height:1.55;color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+b,strong{font-weight:700}
+
+/* ==================== SLIDE SYSTEM ==================== */
+.slide{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;pointer-events:none}
+.slide.active{visibility:visible;opacity:1;pointer-events:auto;z-index:2}
+.slide.transitioning{visibility:visible;opacity:1;pointer-events:none;z-index:3}
+
+.slide-bg{position:absolute;inset:0;z-index:0;filter:brightness(0.92)}
+
+/* Grain overlay inside each slide bg */
+.grain{position:absolute;inset:0;width:100%;height:100%;opacity:0.055;pointer-events:none;mix-blend-mode:overlay}
+
+.slide-content{position:relative;z-index:1;width:100%;max-width:1200px;padding:40px 48px;display:flex;flex-direction:column;max-height:100vh;overflow:hidden}
+
+/* Transition classes */
+.enter-from-top{transform:translateY(-100vh)}
+.enter-from-bottom{transform:translateY(100vh)}
+.enter-from-left{transform:translateX(-100vw)}
+.enter-from-right{transform:translateX(100vw)}
+.exit-to-top{transform:translateY(-100vh)}
+.exit-to-bottom{transform:translateY(100vh)}
+.exit-to-left{transform:translateX(-100vw)}
+.exit-to-right{transform:translateX(100vw)}
+.slide.animating{transition:transform var(--dur) var(--ease)}
+.slide.at-center{transform:translate(0,0)}
+
+/* ==================== SLIDE NAV DOTS ==================== */
+.slide-nav{position:fixed;right:28px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:14px}
+.dot{width:12px;height:12px;border-radius:50%;border:2px solid rgba(31,42,28,.45);background:transparent;cursor:pointer;transition:all .3s;padding:0}
+.dot.active{background:var(--ink);border-color:var(--ink);transform:scale(1.3)}
+.dot:hover{border-color:var(--ink);transform:scale(1.2)}
+
+/* ==================== SLIDE 01 — HERO ==================== */
+.hero-slide{align-items:center;justify-content:center;text-align:center;gap:20px;padding-bottom:90px}
+.hero-meta{display:flex;gap:32px;justify-content:center;margin-bottom:10px}
+.hero-meta a{font-size:.82rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--white);opacity:.9;transition:opacity .25s;text-shadow:0 1px 4px rgba(0,0,0,.3);padding:4px 0;border-bottom:2px solid transparent}
+.hero-meta a:hover{opacity:1;border-bottom-color:var(--white)}
+.hero-slide h1{line-height:1}
+.hero-slide .first-name{font-family:var(--font-serif);font-weight:500;font-size:clamp(1.8rem,3.5vw,3rem);color:var(--white);text-shadow:0 2px 12px rgba(0,0,0,.25);display:block;margin-bottom:8px}
+.hero-slide .last-name{font-family:var(--font-display);font-weight:400;font-size:clamp(5rem,14vw,12rem);letter-spacing:-.045em;color:var(--white);text-shadow:0 4px 32px rgba(0,0,0,.28);display:inline-block;transform:skewX(-12deg);text-transform:lowercase}
+.tagline{font-size:clamp(1rem,1.6vw,1.3rem);color:var(--white);opacity:.9;max-width:30ch;margin:0 auto}
+.hero-cta{margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--white);opacity:.6;animation:floaty 2.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* ==================== BUTTONS ==================== */
+.btn{display:inline-block;padding:12px 28px;font-family:var(--font-body);font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--ink);border-radius:6px;cursor:pointer;transition:all .25s}
+.btn.solid{background:var(--white);border-color:var(--white);color:var(--ink)}
+.btn.solid:hover{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.btn.ghost{background:transparent;border-color:var(--white);color:var(--white)}
+.btn.ghost:hover{background:rgba(255,255,255,.2)}
+.connect-links .btn{background:rgba(255,255,255,.2);border-color:var(--white);color:var(--white)}
+.connect-links .btn:hover{background:var(--white);color:var(--ink)}
+
+/* ==================== SLIDE 02 — ABOUT ==================== */
+.about-slide{gap:24px;justify-content:center}
+.slide-label{font-size:.72rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px}
+.about-title{font-family:var(--font-body);font-weight:700;font-size:clamp(1.4rem,3.2vw,2.4rem);line-height:1.2;color:var(--ink);max-width:22ch}
+.about-body{max-width:600px}
+.about-body p{font-size:.95rem;margin-bottom:12px;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{font-size:.78rem;font-weight:600;padding:5px 14px;border-radius:0;background:rgba(31,42,28,.1);color:var(--ink)}
+
+/* ==================== SLIDES 03-06 — FIXED LAYER SWIPE STACK ==================== */
+.stack-slide{
+  max-width:none;
+  width:100vw;
+  height:100vh;
+  padding:0;
+  overflow:hidden;
+}
+
+.swipe-stack{
+  /* Reference video is ~10% per parked strip. This gives the numerals enough
+     exposed width that at least ~70% of each digit remains visible. */
+  --stack-tab:clamp(120px,10.5vw,210px);
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  background:#ECBC56;
+  isolation:isolate;
+}
+
+.swipe-panel{
+  position:absolute;
+  top:0;
+  bottom:0;
+  overflow:hidden;
+  border-left:1px solid rgba(9,11,9,.20);
+  box-shadow:-4px 0 0 rgba(9,11,9,.055);
+  will-change:left;
+}
+
+/* Exact palette sampled from the reference recording. */
+.panel-1{background:#ECBC56;color:#090B09;z-index:1;width:100vw}
+.panel-2{background:#DC4E4D;color:#090B09;z-index:2;width:calc(100vw - var(--stack-tab))}
+.panel-3{background:#3B844F;color:#090B09;z-index:3;width:calc(100vw - (var(--stack-tab) * 2))}
+.panel-4{background:#D7EFE1;color:#090B09;z-index:4;width:calc(100vw - (var(--stack-tab) * 3))}
+
+/* Parked layers never shift. Only the next layer changes from 100vw to its stop. */
+.stack-state-1 .panel-1{left:0}
+.stack-state-1 .panel-2,.stack-state-1 .panel-3,.stack-state-1 .panel-4{left:100vw}
+
+.stack-state-2 .panel-1{left:0}
+.stack-state-2 .panel-2{left:var(--stack-tab)}
+.stack-state-2 .panel-3,.stack-state-2 .panel-4{left:100vw}
+
+.stack-state-3 .panel-1{left:0}
+.stack-state-3 .panel-2{left:var(--stack-tab)}
+.stack-state-3 .panel-3{left:calc(var(--stack-tab) * 2)}
+.stack-state-3 .panel-4{left:100vw}
+
+.stack-state-4 .panel-1{left:0}
+.stack-state-4 .panel-2{left:var(--stack-tab)}
+.stack-state-4 .panel-3{left:calc(var(--stack-tab) * 2)}
+.stack-state-4 .panel-4{left:calc(var(--stack-tab) * 3)}
+
+/* The section name appears ONLY here. */
+.stack-title{
+  position:absolute;
+  top:clamp(34px,5.4vh,64px);
+  right:clamp(38px,4.5vw,76px);
+  max-width:min(900px,72%);
+  font-family:var(--font-body);
+  font-weight:700;
+  font-size:clamp(2.55rem,4vw,4.6rem);
+  line-height:.98;
+  text-align:right;
+  letter-spacing:-.05em;
+  z-index:8;
+}
+
+/* Tall, narrow, floor-touching numerals. Horizontal compression preserves the
+   reference-video proportions while keeping >=70% visible in the parked tabs. */
+.stack-number{
+  position:absolute;
+  left:clamp(10px,1.15vw,22px);
+  bottom:0;
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:clamp(21rem,34vw,35rem);
+  line-height:.76;
+  letter-spacing:-.075em;
+  color:#080A08;
+  z-index:7;
+  pointer-events:none;
+  white-space:nowrap;
+  transform:scaleX(.78);
+  transform-origin:left bottom;
+}
+
+.content-box-grid{
+  position:absolute;
+  z-index:6;
+  right:clamp(42px,5vw,82px);
+  bottom:clamp(62px,9vh,104px);
+  display:grid;
+  gap:14px;
+  width:min(540px,47%);
+  max-height:60vh;
+}
+.content-box{
+  min-height:88px;
+  padding:18px 20px;
+  border:2px solid rgba(8,10,8,.92);
+  background:rgba(255,255,255,.14);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  overflow:hidden;
+}
+.content-box b{
+  font-size:clamp(1rem,1.2vw,1.2rem);
+  line-height:1.08;
+}
+.content-box span{
+  font-size:.84rem;
+  line-height:1.25;
+  font-weight:600;
+  opacity:.78;
+}
+.panel-1 .content-box{background:rgba(255,255,255,.16)}
+.panel-2 .content-box{background:rgba(255,255,255,.13)}
+.panel-3 .content-box{background:rgba(255,255,255,.10)}
+.panel-4 .content-box{background:rgba(255,255,255,.30)}
+
+.project-boxes,.work-boxes{grid-template-columns:1fr}
+.engagement-boxes,.education-boxes{grid-template-columns:1fr 1fr;width:min(600px,52%)}
+
+/* Upcoming cards do not cast a visible edge while off-canvas. */
+.stack-state-1 .panel-2,.stack-state-1 .panel-3,.stack-state-1 .panel-4,
+.stack-state-2 .panel-3,.stack-state-2 .panel-4,
+.stack-state-3 .panel-4{box-shadow:none;border-left:0}
+
+/* JS adds this to exactly ONE panel: the one currently entering/leaving. */
+.swipe-panel.panel-moving{transition:left var(--dur) var(--ease)}
+
+/* ==================== SLIDE 07 — CONNECT ==================== */
+.connect-slide{align-items:center;justify-content:center;text-align:center;gap:20px}
+.connect-title{font-family:var(--font-body);font-weight:700;font-size:clamp(2.5rem,7vw,5rem);color:var(--white);text-shadow:0 2px 16px rgba(0,0,0,.15)}
+.connect-body{font-size:1rem;color:var(--white);opacity:.9;max-width:48ch;text-align:center}
+.connect-links{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.footer-note{font-family:var(--font-body);font-weight:600;font-size:.85rem;color:var(--white);opacity:.7;margin-top:48px;letter-spacing:.06em}
+
+/* ==================== RESPONSIVE ==================== */
+@media(max-width:900px){
+  .slide-content{padding:32px 24px}
+  .card-row,.card-row.two-col{grid-template-columns:1fr}
+  .folders-row{grid-template-columns:1fr;gap:60px}
+  .folder-tab{top:-26px}
+  .hero-meta{gap:16px;flex-wrap:wrap}
+  .stack-container{height:clamp(260px,55vh,400px)}
+  .sp-2{left:35px}.sp-3{left:70px}
+  .sp-strip{width:35px;min-width:35px}
+  .slide-nav{right:12px;gap:10px}
+  .dot{width:10px;height:10px}
+}
+@media(max-width:600px){
+  .slide-content{padding:24px 16px}
+  .hero-slide .last-name{font-size:clamp(3.5rem,18vw,7rem)}
+  .hero-slide{padding-bottom:70px}
+  .section-heading{font-size:clamp(1.3rem,6vw,2rem)}
+  .about-title{font-size:clamp(1.2rem,5vw,1.8rem)}
+  .sp-body{padding:20px}
+  .sp-body h3{font-size:1.2rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .slide.animating{transition:none!important}
+  .scroll-hint{animation:none}
+  .panels-go .stack-panel{transition:none!important}
+}
+
+@media(max-width:900px){
+  .stack-slide{padding:0;max-width:none}
+  .swipe-stack{--stack-tab:clamp(118px,18vw,160px)}
+  .stack-title{top:28px;right:28px;font-size:clamp(1.65rem,4.6vw,2.6rem);max-width:68vw}
+  .stack-number{left:18px;font-size:clamp(13rem,35vw,22rem);line-height:.74}
+  .content-box-grid{right:28px;bottom:56px;width:min(430px,44vw)}
+  .engagement-boxes,.education-boxes{grid-template-columns:1fr;width:min(430px,44vw)}
+}
+@media(max-width:600px){
+  .stack-slide{padding:0;max-width:none}
+  .swipe-stack{--stack-tab:92px}
+  .stack-number{font-size:11.5rem;left:10px;bottom:0;line-height:.76}
+  .stack-title{top:20px;right:18px;font-size:1.55rem;max-width:72vw}
+  .content-box-grid{right:18px;bottom:36px;width:min(260px,54vw);gap:8px}
+  .content-box{min-height:60px;padding:10px 12px}
+  .content-box b{font-size:.86rem}
+  .content-box span{font-size:.7rem}
+  .engagement-boxes,.education-boxes{grid-template-columns:1fr;width:min(260px,54vw)}
+}
+
+/* ============================================================
+   2026-08-21 — Landing / About / Footer refinement
+   Slides 03–06 intentionally unchanged.
+   ============================================================ */
+:root{
+  --paper:#E9E0D1;
+  --paper-2:#F3EEE5;
+  --charcoal:#201A13;
+  --grid:rgba(32,26,19,.16);
+  --accent:#D86645;
+}
+
+/* ----- 01 LANDING ----- */
+.landing-slide-wrap{color:var(--charcoal)}
+.landing-bg{background:var(--paper);filter:none}
+.landing-slide{
+  width:100%;max-width:none;height:100vh;padding:0;
+  display:block;overflow:hidden;color:var(--charcoal);
+  background-image:
+    linear-gradient(to right,transparent calc(33.333% - .5px),var(--grid) calc(33.333% - .5px),var(--grid) calc(33.333% + .5px),transparent calc(33.333% + .5px)),
+    linear-gradient(to right,transparent calc(50% - .5px),var(--grid) calc(50% - .5px),var(--grid) calc(50% + .5px),transparent calc(50% + .5px)),
+    linear-gradient(to bottom,transparent calc(38% - .5px),var(--grid) calc(38% - .5px),var(--grid) calc(38% + .5px),transparent calc(38% + .5px)),
+    linear-gradient(to bottom,transparent calc(56% - .5px),var(--grid) calc(56% - .5px),var(--grid) calc(56% + .5px),transparent calc(56% + .5px));
+}
+.landing-nav{
+  position:absolute;top:0;left:0;right:0;height:82px;
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1.45fr;align-items:center;
+  padding:0 clamp(28px,4.5vw,74px);font-size:.78rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;z-index:5;
+}
+.landing-nav a{transition:opacity .2s ease}
+.landing-nav a:hover{opacity:.55}
+.landing-nav a:nth-child(2),.landing-nav a:nth-child(3){text-align:center}
+.landing-nav a:last-child{text-align:right}
+.portfolio-wordmark{font-size:clamp(.8rem,1vw,1rem);letter-spacing:.14em}
+.landing-kicker{
+  position:absolute;left:clamp(28px,4.5vw,74px);top:33.5%;
+  text-transform:uppercase;font-size:clamp(.72rem,.85vw,.9rem);font-weight:700;line-height:1.05;
+  max-width:180px;
+}
+.headphones-mark{
+  position:absolute;left:clamp(260px,24vw,410px);top:42%;
+  width:clamp(104px,11vw,172px);height:clamp(104px,11vw,172px);
+  transform:translate(-50%,-20%);
+}
+.headphones-mark svg{width:100%;height:100%;fill:none;stroke:var(--charcoal);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.headphones-mark rect{fill:var(--charcoal);stroke:none}
+.landing-scroll{
+  position:absolute;right:clamp(28px,4.5vw,74px);top:39%;
+  border:0;background:none;color:var(--charcoal);font:inherit;
+  text-transform:uppercase;font-size:.74rem;font-weight:700;cursor:pointer;padding:10px 0;
+}
+.landing-scroll::after{content:' ↓';font-size:1rem}
+.landing-bottom{
+  position:absolute;left:clamp(28px,4.5vw,74px);right:clamp(28px,4.5vw,74px);bottom:clamp(24px,4vh,54px);
+  display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(38px,6vw,110px);align-items:end;
+}
+.landing-bottom h1{
+  font-family:var(--font-body);font-size:clamp(4rem,8vw,8.8rem);font-weight:500;
+  letter-spacing:-.065em;line-height:.83;white-space:nowrap;
+}
+.landing-bottom p{
+  font-size:clamp(1.15rem,2vw,2rem);line-height:1.18;max-width:31ch;letter-spacing:-.025em;
+}
+.landing-bottom p::first-letter{color:inherit}
+
+/* ----- 02 ABOUT ----- */
+.about-new-bg{background:var(--paper-2);filter:none}
+.about-slide-new{max-width:none;width:100%;height:100vh;padding:clamp(32px,5vh,62px) clamp(34px,5.5vw,84px);gap:24px;justify-content:flex-start}
+.about-heading-row{display:grid;grid-template-columns:180px 1fr;gap:28px;align-items:start}
+.about-slide-new .slide-label{margin-top:10px;color:rgba(32,26,19,.58)}
+.about-slide-new .about-title{max-width:870px;font-size:clamp(1.6rem,2.5vw,2.6rem);letter-spacing:-.035em;color:var(--charcoal)}
+.about-layout{display:grid;grid-template-columns:minmax(290px,34vw) minmax(0,1fr);gap:clamp(34px,5vw,78px);align-items:stretch;min-height:0;flex:1;margin-top:4px}
+.about-photo-wrap{height:min(62vh,620px);align-self:center;border:1.5px solid #111;background:#ddd;overflow:hidden;margin:0}
+.about-photo{width:100%;height:100%;display:block;object-fit:cover;object-position:center;opacity:0;transform:translateY(14px)}
+.slide.active .about-photo{animation:aboutPhotoIn .75s cubic-bezier(.22,.75,.2,1) .12s forwards}
+@keyframes aboutPhotoIn{to{opacity:1;transform:translateY(0)}}
+.about-skills-panel{height:min(62vh,620px);align-self:center;display:flex;flex-direction:column;justify-content:center;min-width:0;color:var(--charcoal)}
+.about-skills-panel h3{text-transform:uppercase;font-size:clamp(1.1rem,1.6vw,1.5rem);letter-spacing:.09em;margin-bottom:16px}
+.skills-list{display:grid;gap:9px}
+.skills-list p{font-size:clamp(.76rem,1vw,.98rem);line-height:1.35;margin:0;color:var(--charcoal)}
+.skills-list b{font-weight:700}
+.graduate-note{margin-top:18px;padding-top:15px;border-top:1px solid rgba(32,26,19,.25);font-size:clamp(.78rem,1vw,.98rem);line-height:1.35}
+@media(min-width:1050px){.skills-list p{white-space:nowrap}}
+
+/* ----- 07 FOOTER ----- */
+.footer-bg{background:#F8F8F6;filter:none}
+.footer-slide-new{max-width:none;width:100%;height:100vh;padding:0;color:#0B0B0B;display:grid;grid-template-columns:1.08fr 1px .92fr;align-items:stretch;gap:0;text-align:left}
+.footer-left{padding:clamp(48px,7vh,86px) clamp(42px,6vw,94px);display:flex;flex-direction:column;align-items:flex-start}
+.footer-left h2{font-size:clamp(4rem,7vw,7.2rem);font-weight:400;letter-spacing:-.055em;line-height:.9;margin-bottom:40px}
+.footer-left p{font-size:clamp(1.15rem,1.65vw,1.65rem);line-height:1.5;max-width:24ch;letter-spacing:.015em}
+.footer-socials{display:flex;gap:16px;margin-top:46px}
+.footer-socials a{width:64px;height:64px;border:1.5px solid #111;border-radius:8px;display:grid;place-items:center;box-shadow:0 9px 16px rgba(0,0,0,.11);transition:transform .2s ease,background .2s ease}
+.footer-socials a:hover{transform:translateY(-3px);background:#EFEFEA}
+.footer-socials svg{width:27px;height:27px;fill:#111}
+.footer-divider{width:1px;background:#161616;height:82%;align-self:center}
+.footer-menu{padding:clamp(80px,12vh,130px) clamp(50px,9vw,145px);display:flex;flex-direction:column;align-items:flex-start}
+.footer-menu h3{text-transform:uppercase;font-size:clamp(2.1rem,4vw,4.3rem);font-weight:500;letter-spacing:.03em;margin-bottom:24px}
+.footer-menu a{font-size:clamp(1.9rem,3.2vw,3.5rem);line-height:1.42;letter-spacing:-.025em;transition:opacity .2s ease}
+.footer-menu a:hover{opacity:.45}
+
+@media(max-width:900px){
+  .landing-nav{grid-template-columns:1.5fr 1fr 1fr 1.35fr;padding:0 24px;font-size:.66rem}
+  .landing-kicker{left:24px}.landing-scroll{right:24px}
+  .landing-bottom{left:24px;right:24px;grid-template-columns:1fr;gap:22px}
+  .landing-bottom h1{font-size:clamp(3.8rem,12vw,7rem)}
+  .landing-bottom p{max-width:45ch;font-size:clamp(1rem,2.6vw,1.4rem)}
+  .about-slide-new{padding:30px 28px}
+  .about-heading-row{grid-template-columns:1fr;gap:8px}
+  .about-layout{grid-template-columns:minmax(240px,38vw) 1fr;gap:28px}
+  .about-photo-wrap,.about-skills-panel{height:min(58vh,540px)}
+  .skills-list{gap:7px}.skills-list p{font-size:.73rem;white-space:normal}
+  .footer-slide-new{grid-template-columns:1fr 1px 1fr}
+  .footer-left{padding:54px 38px}.footer-menu{padding:72px 42px}
+}
+@media(max-width:650px){
+  .landing-nav{height:auto;padding:22px 18px;grid-template-columns:1fr 1fr;gap:12px}.landing-nav a:nth-child(2),.landing-nav a:nth-child(3),.landing-nav a:last-child{text-align:left}
+  .landing-kicker{top:26%;left:18px}.headphones-mark{left:32%;top:37%;width:110px;height:110px}.landing-scroll{right:18px;top:34%}
+  .landing-bottom{left:18px;right:18px;bottom:24px}.landing-bottom h1{font-size:16vw}.landing-bottom p{font-size:1rem}
+  .about-slide-new{padding:22px 18px;overflow:auto}.about-layout{grid-template-columns:1fr}.about-photo-wrap{width:min(76vw,360px);height:auto;aspect-ratio:3/4;justify-self:start}.about-skills-panel{height:auto;justify-content:flex-start}.skills-list p{font-size:.73rem}
+  .footer-slide-new{grid-template-columns:1fr;height:100vh;overflow:auto}.footer-divider{display:none}.footer-left,.footer-menu{padding:42px 28px}.footer-menu{border-top:1px solid #111}.footer-socials a{width:54px;height:54px}
+}
+
+/* ============================================================
+   V5 — UNIFIED TYPOGRAPHY / ABOUT REBUILD / DIRECT NAV SYSTEM
+   ============================================================ */
+:root{
+  --font-display:'Hanken Grotesk',sans-serif;
+  --font-serif:'Hanken Grotesk',sans-serif;
+  --font-body:'Hanken Grotesk',sans-serif;
+  --education-bg:#D7EFE1;
+  --ui-border:2px;
+  --ui-radius:0px;
+  --ui-gutter:16px;
+  --ui-pad:22px;
+}
+html,body,button,input,textarea,select{font-family:var(--font-body)}
+.landing-bg,.about-new-bg,.footer-bg{background:var(--education-bg)!important;filter:none}
+.btn,.content-box,.skill-card,.footer-socials a,.about-photo-wrap{border-radius:var(--ui-radius)!important}
+.btn,.content-box,.skill-card,.footer-socials a{border-width:var(--ui-border)!important}
+.btn{padding:12px 24px}
+
+/* One-family display hierarchy */
+.stack-number{font-family:var(--font-body);font-weight:900;letter-spacing:-.09em;transform:scaleX(.78);transform-origin:left bottom}
+.landing-bottom h1{font-family:var(--font-body);font-weight:600}
+.footer-left h2,.footer-menu h3{font-family:var(--font-body)}
+
+/* 02 ABOUT — rebuilt from supplied Photoshop composition */
+.about-slide-new{
+  width:100%;max-width:none;height:100vh;
+  padding:clamp(34px,5.7vh,62px) clamp(52px,5.8vw,84px) clamp(42px,6vh,68px);
+  display:flex;flex-direction:column;gap:clamp(42px,7vh,76px);overflow:hidden;color:#0c0c0c;
+}
+.about-topline{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:40px}
+.about-slide-new .about-title{
+  max-width:850px;margin:0;font-size:clamp(1.8rem,2.6vw,2.65rem);line-height:1.12;
+  font-weight:700;letter-spacing:-.042em;color:#0b0b0b;
+}
+.about-slide-new .slide-label{
+  margin:18px 0 0;text-transform:uppercase;letter-spacing:.35em;font-size:.68rem;font-weight:600;color:#1b1b1b;white-space:nowrap;
+}
+.about-showcase{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(340px,.82fr);gap:clamp(38px,5vw,74px);align-items:start;min-height:0;flex:1}
+.about-skills-area h3{font-size:clamp(1.35rem,1.9vw,1.8rem);line-height:1;text-transform:uppercase;letter-spacing:.13em;font-weight:700;margin-bottom:clamp(28px,4vh,42px)}
+.skill-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--ui-gutter)}
+.skill-card{
+  position:relative;min-height:190px;border:var(--ui-border) solid #0b0b0b;background:transparent;
+  padding:46px var(--ui-pad) 20px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
+}
+.skill-card::before{content:"";position:absolute;left:-2px;right:-2px;top:8px;height:7px;background:#111;border-top:var(--ui-border) solid #111;border-bottom:var(--ui-border) solid #111}
+.skill-card.accent-red::before{background:#DC4E4D}.skill-card.accent-gold::before{background:#ECBC56}.skill-card.accent-green::before{background:#3B844F}.skill-card.accent-mint::before{background:#A8D5C0}
+.skill-icon{width:44px;height:44px;margin-bottom:8px}
+.skill-icon svg{width:100%;height:100%;fill:none;stroke:#101010;stroke-width:2.6;stroke-linecap:square;stroke-linejoin:miter}
+.skill-card h4{font-size:clamp(1.22rem,1.55vw,1.6rem);line-height:1.08;font-weight:800;letter-spacing:-.03em;margin:0 0 13px}
+.skill-card p{font-size:clamp(.92rem,1.1vw,1.12rem);line-height:1.22;font-weight:400;letter-spacing:-.018em;margin:0}
+.about-photo-wrap{
+  position:relative;width:100%;height:min(64vh,610px);margin:0;border:var(--ui-border) solid #0b0b0b;background:#b7c2ae;overflow:visible;align-self:start;
+}
+.about-photo{width:100%;height:100%;display:block;object-fit:cover;object-position:center;opacity:0;transform:none}
+.slide.active .about-photo{animation:aboutPhotoFade .72s ease .1s forwards}
+@keyframes aboutPhotoFade{from{opacity:0}to{opacity:1}}
+.photo-pixels{position:absolute;right:-2px;top:-2px;width:68px;height:68px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0}
+.photo-pixels i{background:#0C8E4F}.photo-pixels i:nth-child(2),.photo-pixels i:nth-child(4),.photo-pixels i:nth-child(6){visibility:hidden}.photo-pixels i:nth-child(5){background:#315C47}
+.about-photo-wrap figcaption{
+  position:absolute;right:-34px;bottom:-18px;width:min(290px,72%);padding:18px 22px;
+  background:#0C8E4F;color:#fff;border:var(--ui-border) solid #0b0b0b;
+  font-size:clamp(1.2rem,1.6vw,1.55rem);font-weight:800;text-align:center;line-height:1;
+}
+
+/* 03–06 — supplied square box language */
+.content-box-grid{gap:var(--ui-gutter)}
+.content-box{
+  position:relative;min-height:112px;padding:34px var(--ui-pad) 18px;border:var(--ui-border) solid #090b09!important;
+  background:transparent!important;display:flex;flex-direction:column;justify-content:flex-start;gap:10px;overflow:hidden;
+}
+.content-box::before{content:"";position:absolute;left:-2px;right:-2px;top:8px;border-top:var(--ui-border) solid #090b09}
+.content-box b{font-size:clamp(1.05rem,1.35vw,1.35rem);font-weight:800;line-height:1.08;letter-spacing:-.025em}
+.content-box span{font-size:clamp(.82rem,.95vw,1rem);line-height:1.22;font-weight:400;opacity:.9}
+
+/* Footer: same background + square controls */
+.footer-bg{background:var(--education-bg)!important}
+.footer-socials{gap:var(--ui-gutter)}
+.footer-socials a{border:var(--ui-border) solid #111!important;box-shadow:none;background:transparent}
+.footer-socials a:hover{transform:none;background:rgba(255,255,255,.25)}
+
+@media(max-width:1000px){
+  .about-showcase{grid-template-columns:1.1fr .9fr;gap:28px}
+  .skill-card{min-height:170px;padding:42px 18px 16px}.skill-card p{font-size:.83rem}.skill-card h4{font-size:1.12rem}
+  .about-photo-wrap{height:min(58vh,530px)}
+}
+@media(max-width:720px){
+  .about-slide-new{padding:24px 20px;overflow:auto;gap:28px}.about-topline{grid-template-columns:1fr}.about-slide-new .slide-label{grid-row:1;margin:0}.about-slide-new .about-title{grid-row:2;font-size:1.7rem}
+  .about-showcase{grid-template-columns:1fr}.skill-card-grid{grid-template-columns:1fr}.about-photo-wrap{height:auto;aspect-ratio:4/5;width:86%;margin:0 auto 40px}.about-photo-wrap figcaption{right:-18px}
+}
+
+/* ============================================================
+   V6 — content fill / typography refinements / trackpad paging
+   ============================================================ */
+
+/* Landing record sentence: panel-color cross references. */
+.record-phrase{font-weight:700}
+.phrase-work{color:#ECBC56}
+.phrase-projects{color:#DC4E4D}
+.phrase-university{color:#3B844F}
+
+/* About cards: fixed internal rows keep all headings/copy aligned.
+   Supporting copy is ~1 mm (~3.78 px) larger than V5. */
+.skill-card{
+  display:grid!important;
+  grid-template-rows:44px 42px auto;
+  align-content:start;
+  justify-content:stretch!important;
+  row-gap:10px;
+  padding:46px var(--ui-pad) 22px!important;
+}
+.skill-icon{margin:0!important;align-self:end}
+.skill-card h4{
+  min-height:42px;
+  display:flex;
+  align-items:flex-start;
+  margin:0!important;
+}
+.skill-card p{
+  font-size:clamp(1.15rem,1.34vw,1.36rem)!important;
+  line-height:1.18!important;
+  margin:0!important;
+}
+
+/* Restore the original Anton numerals only. The negative optical offset
+   removes Anton's baseline air so each numeral visually touches the floor. */
+.stack-number{
+  font-family:'Anton',sans-serif!important;
+  font-weight:400!important;
+  letter-spacing:-.075em!important;
+  transform:scaleX(.78)!important;
+  transform-origin:left bottom!important;
+  bottom:-.062em!important;
+  line-height:.76!important;
+}
+
+/* Full CV content inside the supplied square-box language. */
+.content-box-grid{
+  gap:14px!important;
+  max-height:none!important;
+}
+.content-box{
+  min-height:0!important;
+  padding:34px 18px 16px!important;
+  gap:7px!important;
+  overflow:visible!important;
+}
+.content-box-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:12px;
+  align-items:start;
+}
+.content-date{
+  font-size:clamp(.78rem,.9vw,.94rem);
+  font-weight:700;
+  line-height:1.15;
+  white-space:nowrap;
+  opacity:.82;
+}
+.content-org,.content-meta{
+  margin:0;
+  font-size:clamp(.82rem,.94vw,1rem);
+  line-height:1.18;
+  font-weight:700;
+  opacity:.82;
+}
+.content-copy,.content-list{
+  margin:0;
+  font-size:clamp(.82rem,.94vw,.98rem);
+  line-height:1.24;
+  font-weight:500;
+  opacity:.92;
+}
+.content-list{
+  padding-left:1.05em;
+  display:grid;
+  gap:3px;
+}
+.content-list li{padding-left:.12em}
+.content-box b{
+  font-size:clamp(1.02rem,1.22vw,1.28rem)!important;
+  line-height:1.08!important;
+}
+
+/* Active-state layouts are sized to preserve readability beside the large numeral. */
+.work-boxes{
+  width:min(620px,49%)!important;
+  bottom:clamp(36px,5vh,58px)!important;
+  grid-template-columns:1fr!important;
+}
+.project-boxes{
+  width:min(760px,58%)!important;
+  bottom:clamp(34px,4.5vh,52px)!important;
+  grid-template-columns:1fr 1fr!important;
+}
+.engagement-boxes{
+  width:min(720px,58%)!important;
+  bottom:clamp(42px,5.5vh,66px)!important;
+  grid-template-columns:1fr 1fr!important;
+}
+.engagement-boxes .engagement-card:last-child{grid-column:1 / -1}
+.education-boxes{
+  width:min(600px,58%)!important;
+  bottom:clamp(70px,10vh,112px)!important;
+  grid-template-columns:1fr!important;
+}
+.education-card{min-height:170px!important;justify-content:center!important}
+.education-card b{font-size:clamp(1.25rem,1.55vw,1.65rem)!important}
+.education-card .content-copy{font-size:clamp(.98rem,1.15vw,1.18rem)!important}
+
+/* Smaller screens retain the same hierarchy without overlapping. */
+@media(max-width:1050px){
+  .skill-card{grid-template-rows:40px 38px auto;padding:42px 17px 17px!important}
+  .skill-card h4{min-height:38px}
+  .skill-card p{font-size:clamp(.96rem,1.45vw,1.12rem)!important}
+  .work-boxes{width:min(560px,50%)!important}
+  .project-boxes{width:min(630px,58%)!important}
+  .engagement-boxes{width:min(620px,58%)!important}
+  .content-copy,.content-list{font-size:clamp(.68rem,.9vw,.78rem)}
+  .content-org,.content-meta{font-size:clamp(.7rem,.95vw,.8rem)}
+}
+@media(max-width:760px){
+  .skill-card{grid-template-rows:38px auto auto}
+  .skill-card h4{min-height:0}
+  .skill-card p{font-size:1rem!important}
+  .project-boxes,.engagement-boxes{grid-template-columns:1fr!important}
+  .engagement-boxes .engagement-card:last-child{grid-column:auto}
+  .content-box-grid{width:min(330px,56vw)!important;right:18px!important;bottom:28px!important;gap:8px!important}
+  .content-box{padding:25px 10px 9px!important;gap:4px!important}
+  .content-box-head{grid-template-columns:1fr;gap:2px}
+  .content-date{white-space:normal}
+  .content-copy,.content-list,.content-org,.content-meta{font-size:.62rem}
+  .content-box b{font-size:.72rem!important}
+}
+
+/* ============================================================
+   V7 — Photoshop-matched stack pages + refined home + scroll
+   2026-08-26
+   ============================================================ */
+:root{
+  --dur:.66s;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --experience:#F9C076;
+  --projects:#CC6147;
+  --university:#F9C076;
+  --education:#D7EFE1;
+  --experience-card:#FAD39B;
+  --projects-card:#D87965;
+  --university-card:#FAD39B;
+  --education-card:#E2F3EA;
+}
+
+html,body{overscroll-behavior:none}
+
+/* ---- Home: slightly larger nav + stronger record title. ---- */
+.landing-nav{
+  height:88px;
+  padding-left:clamp(30px,4.7vw,78px);
+  padding-right:clamp(30px,4.7vw,78px);
+  font-size:clamp(.86rem,1vw,1.02rem);
+  letter-spacing:.055em;
+}
+.portfolio-wordmark{font-size:clamp(.96rem,1.12vw,1.16rem);letter-spacing:.12em}
+.landing-bottom{
+  grid-template-columns:minmax(0,1.16fr) minmax(360px,.84fr);
+  gap:clamp(82px,8vw,154px);
+  align-items:end;
+}
+.landing-bottom h1{
+  font-size:clamp(5rem,9.35vw,10.2rem);
+  line-height:.81;
+  letter-spacing:-.07em;
+}
+.landing-bottom p{
+  color:var(--charcoal)!important;
+  font-size:clamp(1.12rem,1.86vw,1.9rem);
+  line-height:1.2;
+  max-width:32ch;
+}
+.record-phrase,.phrase-work,.phrase-projects,.phrase-university{color:inherit!important;font-weight:inherit!important}
+
+/* ---- Updated stack palette. Explicit user palette wins over prior sampled palette. ---- */
+.swipe-stack{background:var(--experience)}
+.panel-1{background:var(--experience)!important}
+.panel-2{background:var(--projects)!important}
+.panel-3{background:var(--university)!important}
+.panel-4{background:var(--education)!important}
+
+.stack-title{
+  top:clamp(38px,5.4vh,62px);
+  right:clamp(46px,4.6vw,78px);
+  max-width:min(980px,76%);
+  font-family:'Hanken Grotesk',sans-serif;
+  font-size:clamp(2.8rem,4vw,4.45rem);
+  font-weight:700;
+  letter-spacing:-.052em;
+  line-height:.96;
+}
+
+/* Keep the original display font for the big numerals and optically plant them on the floor. */
+.stack-number{
+  font-family:'Anton',sans-serif!important;
+  font-weight:400!important;
+  bottom:-.073em!important;
+  line-height:.74!important;
+  font-size:clamp(21rem,34vw,35rem)!important;
+  transform:scaleX(.78)!important;
+  transform-origin:left bottom!important;
+}
+
+/* ---- Photoshop card system. ---- */
+.content-box-grid{
+  z-index:9!important;
+  gap:clamp(20px,2.25vw,38px)!important;
+  max-height:none!important;
+}
+.content-box.editorial-card{
+  position:relative;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:space-between!important;
+  min-height:0!important;
+  padding:clamp(28px,3.2vh,38px) clamp(24px,2vw,34px) clamp(18px,2.2vh,26px)!important;
+  border:2px solid #0A0A08!important;
+  border-radius:18px!important;
+  overflow:hidden!important;
+  box-shadow:none!important;
+  gap:14px!important;
+}
+.content-box.editorial-card::before{
+  content:"";
+  position:absolute;
+  left:-1px;
+  right:-1px;
+  top:7px;
+  height:18px;
+  border-top:1.5px solid #0A0A08;
+  border-radius:17px 17px 0 0;
+  pointer-events:none;
+}
+.panel-1 .editorial-card{background:var(--experience-card)!important}
+.panel-2 .editorial-card{background:var(--projects-card)!important}
+.panel-3 .editorial-card{background:var(--university-card)!important}
+.panel-4 .editorial-card{background:var(--education-card)!important}
+
+.editorial-card-body{
+  display:grid;
+  grid-template-columns:minmax(0,38%) minmax(0,62%);
+  gap:clamp(18px,2vw,34px);
+  align-items:start;
+  min-height:0;
+}
+.editorial-intro,.editorial-details{min-width:0}
+.editorial-title{
+  margin:0 0 6px;
+  font-family:'Hanken Grotesk',sans-serif;
+  font-size:clamp(1.3rem,1.55vw,1.68rem)!important;
+  font-weight:800!important;
+  letter-spacing:-.035em;
+  line-height:1.02!important;
+}
+.editorial-subtitle,.editorial-meta{
+  margin:0;
+  font-size:clamp(.82rem,1vw,1rem)!important;
+  line-height:1.18!important;
+  font-weight:700!important;
+  opacity:.96!important;
+}
+.editorial-date{
+  margin:4px 0 0;
+  font-size:clamp(.7rem,.84vw,.86rem)!important;
+  line-height:1.15!important;
+  font-weight:600!important;
+  opacity:.95!important;
+}
+.editorial-bullets{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:6px;
+  font-size:clamp(.77rem,.93vw,.98rem)!important;
+  line-height:1.22!important;
+  font-weight:550!important;
+}
+.editorial-bullets li{
+  position:relative;
+  padding-left:1.15em;
+}
+.editorial-bullets li::before{
+  content:"▪";
+  position:absolute;
+  left:0;
+  top:-.02em;
+  font-size:.9em;
+}
+.card-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  align-items:center;
+}
+.card-tag{
+  display:inline-flex;
+  align-items:center;
+  min-height:22px;
+  padding:4px 11px 5px;
+  border:0;
+  border-radius:999px;
+  background:rgba(77,48,10,.11);
+  color:#16120C;
+  font-size:clamp(.58rem,.69vw,.72rem);
+  font-weight:650;
+  line-height:1;
+  white-space:nowrap;
+}
+.panel-2 .card-tag{background:rgba(90,20,10,.13)}
+
+/* Experience: three full-width cards stacked on the right, matching exppage.jpeg. */
+.work-boxes{
+  left:auto!important;
+  right:clamp(52px,4.5vw,78px)!important;
+  top:clamp(190px,20vh,220px)!important;
+  bottom:clamp(44px,5vh,64px)!important;
+  width:min(690px,43vw)!important;
+  height:auto!important;
+  grid-template-columns:1fr!important;
+  grid-template-rows:repeat(3,minmax(0,1fr))!important;
+  align-content:stretch!important;
+}
+.work-boxes .editorial-card-body{grid-template-columns:minmax(0,37%) minmax(0,63%)}
+
+/* Projects: 2x2 editorial grid in the same lower-right footprint as the Photoshop mockup. */
+.project-boxes{
+  left:clamp(270px,18vw,335px)!important;
+  right:clamp(48px,4vw,70px)!important;
+  top:clamp(385px,42vh,440px)!important;
+  bottom:clamp(42px,5vh,62px)!important;
+  width:auto!important;
+  height:auto!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-template-rows:repeat(2,minmax(0,1fr))!important;
+  gap:clamp(24px,2.3vw,38px)!important;
+}
+.project-boxes .editorial-card{
+  padding:clamp(26px,2.7vh,34px) clamp(20px,1.7vw,28px) clamp(17px,1.9vh,23px)!important;
+}
+.project-boxes .editorial-card-body{grid-template-columns:minmax(0,38%) minmax(0,62%);gap:clamp(15px,1.5vw,24px)}
+.project-boxes .editorial-title{font-size:clamp(1.08rem,1.3vw,1.42rem)!important}
+.project-boxes .editorial-meta{font-size:clamp(.66rem,.76vw,.78rem)!important}
+.project-boxes .editorial-bullets{font-size:clamp(.7rem,.82vw,.86rem)!important;line-height:1.2!important}
+.project-boxes .card-tag{font-size:clamp(.52rem,.62vw,.66rem);padding:4px 9px}
+
+/* University: three simple wide cards placed lower, matching unipage.jpeg. */
+.engagement-boxes{
+  left:auto!important;
+  right:clamp(52px,4.6vw,80px)!important;
+  top:clamp(335px,35.5vh,390px)!important;
+  bottom:clamp(48px,5.5vh,68px)!important;
+  width:min(700px,44vw)!important;
+  height:auto!important;
+  grid-template-columns:1fr!important;
+  grid-template-rows:repeat(3,minmax(0,1fr))!important;
+  align-content:stretch!important;
+  gap:clamp(28px,3.2vh,42px)!important;
+}
+.engagement-boxes .engagement-card:last-child{grid-column:auto!important}
+.engagement-boxes .editorial-card-body{grid-template-columns:minmax(0,42%) minmax(0,58%);align-items:center}
+.engagement-boxes .editorial-title{font-size:clamp(1.15rem,1.42vw,1.55rem)!important}
+.engagement-boxes .editorial-subtitle{font-size:clamp(.72rem,.88vw,.92rem)!important}
+.engagement-boxes .editorial-bullets{font-size:clamp(.75rem,.9vw,.94rem)!important}
+
+/* Education: same visual language as University Engagements, preserved in its existing slide. */
+.education-boxes{
+  left:auto!important;
+  right:clamp(52px,4.6vw,80px)!important;
+  top:clamp(420px,44vh,480px)!important;
+  bottom:auto!important;
+  width:min(700px,44vw)!important;
+  grid-template-columns:1fr!important;
+}
+.education-boxes .education-card{
+  min-height:190px!important;
+  justify-content:center!important;
+}
+.education-boxes .editorial-card-body{grid-template-columns:minmax(0,42%) minmax(0,58%);align-items:center}
+.education-boxes .editorial-title{font-size:clamp(1.28rem,1.58vw,1.72rem)!important}
+.education-boxes .editorial-bullets{font-size:clamp(.82rem,.96vw,1rem)!important}
+
+/* Faster, softer moving layer. */
+.swipe-panel.panel-moving{transition:left var(--dur) var(--ease)!important}
+.slide.animating{transition:transform var(--dur) var(--ease)!important}
+
+@media(max-width:1180px){
+  .work-boxes,.engagement-boxes,.education-boxes{width:min(620px,48vw)!important;right:34px!important}
+  .project-boxes{left:240px!important;right:34px!important}
+  .editorial-bullets{font-size:.72rem!important}
+  .card-tag{font-size:.54rem}
+}
+@media(max-width:820px){
+  .landing-nav{font-size:.75rem}.portfolio-wordmark{font-size:.82rem}
+  .landing-bottom{grid-template-columns:1fr;gap:26px}.landing-bottom h1{font-size:clamp(4rem,15vw,7rem)}
+  .work-boxes,.engagement-boxes,.education-boxes,.project-boxes{
+    left:auto!important;right:18px!important;top:auto!important;bottom:28px!important;width:min(390px,64vw)!important;height:auto!important;
+  }
+  .work-boxes,.engagement-boxes{grid-template-rows:none!important;gap:8px!important}
+  .project-boxes{grid-template-columns:1fr!important;grid-template-rows:none!important;max-height:72vh!important;overflow:auto!important}
+  .editorial-card{border-radius:12px!important;padding:26px 12px 11px!important}
+  .editorial-card-body,.work-boxes .editorial-card-body,.project-boxes .editorial-card-body,.engagement-boxes .editorial-card-body,.education-boxes .editorial-card-body{grid-template-columns:1fr!important;gap:6px!important}
+  .card-tags{gap:4px}.card-tag{font-size:.48rem;padding:3px 7px;min-height:18px}
+  .editorial-title{font-size:.9rem!important}.editorial-subtitle,.editorial-meta{font-size:.62rem!important}.editorial-date{font-size:.55rem!important}.editorial-bullets{font-size:.57rem!important;gap:2px}
+}
+
+/* ============================================================
+   V8 — pixel-positioned Photoshop replication
+   Targets supplied: exppage.jpeg, Projectspage.jpeg, unipage.jpeg
+   ============================================================ */
+:root{
+  --dur:.80s;
+  --ease:cubic-bezier(.65,0,.35,1);
+  --experience:#F9C076;
+  --projects:#CC6147;
+  --university:#9AAE8D;
+  --experience-card:#FAC786;
+  --projects-card:#D7836E;
+  --university-card:#ACBDA2;
+  --education:#D7EFE1;
+  --education-card:#E2F3EA;
+}
+
+/* Home — only the requested wordmark scale change. */
+.portfolio-wordmark{
+  font-size:clamp(1.16rem,1.42vw,1.48rem)!important;
+  font-weight:700!important;
+  letter-spacing:.105em!important;
+}
+
+/* Stack palette — preserve the layered theme, new University colour wins. */
+.panel-1{background:var(--experience)!important}
+.panel-2{background:var(--projects)!important}
+.panel-3{background:var(--university)!important}
+.panel-4{background:var(--education)!important}
+
+/* Supplied renders use ~10.4% parked strips at 1600 px. */
+.swipe-stack{--stack-tab:10.5vw!important}
+
+/* Photoshop heading placement/scale. */
+.stack-title{
+  top:5.55vh!important;
+  right:4.15vw!important;
+  max-width:76%!important;
+  font-family:'Hanken Grotesk',sans-serif!important;
+  font-size:clamp(2.9rem,3.55vw,3.6rem)!important;
+  font-weight:700!important;
+  letter-spacing:-.05em!important;
+  line-height:.98!important;
+  text-align:right!important;
+}
+
+/* Original Anton numerals, planted on the floor exactly as the render. */
+.stack-number{
+  left:1.55vw!important;
+  bottom:-.073em!important;
+  font-family:'Anton',sans-serif!important;
+  font-weight:400!important;
+  font-size:34vw!important;
+  line-height:.74!important;
+  letter-spacing:-.075em!important;
+  transform:scaleX(.78)!important;
+  transform-origin:left bottom!important;
+}
+
+/* Shared Photoshop card construction. */
+.content-box.editorial-card{
+  border:1.6px solid #090B09!important;
+  border-radius:16px!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  padding:3.45vh 1.58vw 2.2vh!important;
+  gap:1.15vh!important;
+  background-clip:padding-box!important;
+}
+.content-box.editorial-card::before{
+  left:-1px!important;
+  right:-1px!important;
+  top:7px!important;
+  height:15px!important;
+  border-top:1.2px solid #090B09!important;
+  border-radius:15px 15px 0 0!important;
+}
+.panel-1 .editorial-card{background:var(--experience-card)!important}
+.panel-2 .editorial-card{background:var(--projects-card)!important}
+.panel-3 .editorial-card{background:var(--university-card)!important}
+.panel-4 .editorial-card{background:var(--education-card)!important}
+
+.editorial-card-body{
+  display:grid!important;
+  grid-template-columns:40% 60%!important;
+  gap:1.55vw!important;
+  align-items:start!important;
+}
+.editorial-title{
+  margin:0 0 .55vh!important;
+  font-size:clamp(1.18rem,1.48vw,1.5rem)!important;
+  line-height:1.02!important;
+  font-weight:700!important;
+  letter-spacing:-.03em!important;
+}
+.editorial-title sup{font-size:.53em;line-height:0;vertical-align:super}
+.editorial-subtitle{
+  margin:0!important;
+  font-size:clamp(.82rem,1.02vw,1.04rem)!important;
+  line-height:1.13!important;
+  font-weight:600!important;
+}
+.editorial-date{
+  margin:.35vh 0 0!important;
+  font-size:clamp(.67rem,.78vw,.8rem)!important;
+  line-height:1.1!important;
+  font-weight:500!important;
+}
+.editorial-bullets{
+  margin:0!important;
+  padding:0!important;
+  display:grid!important;
+  gap:.25vh!important;
+  font-size:clamp(.78rem,.91vw,.93rem)!important;
+  line-height:1.15!important;
+  font-weight:500!important;
+}
+.editorial-bullets li{padding-left:1.05em!important}
+.editorial-bullets li::before{content:'▪'!important;left:0!important;top:0!important;font-size:.78em!important}
+.card-tags{gap:.45vw!important;align-items:center!important}
+.card-tag{
+  min-height:0!important;
+  padding:.36vh .72vw .4vh!important;
+  border-radius:999px!important;
+  font-size:clamp(.51rem,.59vw,.61rem)!important;
+  line-height:1!important;
+  font-weight:500!important;
+  background:rgba(103,63,9,.10)!important;
+}
+.panel-2 .card-tag{background:rgba(92,25,16,.13)!important}
+
+/* ------------------------------------------------------------
+   WHERE I'VE WORKED — target reference coordinates @1600×1000:
+   x=850, w=686; y=199/456/727, h=217/215/217.
+   ------------------------------------------------------------ */
+.work-boxes{
+  inset:0!important;
+  width:auto!important;
+  height:auto!important;
+  max-height:none!important;
+  display:block!important;
+}
+.work-boxes .experience-card{
+  position:absolute!important;
+  left:53.125vw!important;
+  width:42.875vw!important;
+  height:21.7vh!important;
+  min-height:0!important;
+}
+.work-boxes .experience-card:nth-child(1){top:19.9vh!important}
+.work-boxes .experience-card:nth-child(2){top:45.6vh!important;height:21.5vh!important}
+.work-boxes .experience-card:nth-child(3){top:72.7vh!important}
+.work-boxes .editorial-card-body{grid-template-columns:39.5% 60.5%!important;gap:1.35vw!important}
+.work-boxes .editorial-title{font-size:clamp(1.22rem,1.48vw,1.5rem)!important}
+.work-boxes .editorial-subtitle{font-size:clamp(.82rem,.98vw,1rem)!important}
+.work-boxes .editorial-bullets{font-size:clamp(.75rem,.89vw,.91rem)!important;line-height:1.12!important}
+.work-boxes .card-tags{margin-top:auto!important}
+
+/* ------------------------------------------------------------
+   PROJECTS — five-card asymmetric layout from Projectspage.jpeg.
+   Panel begins at one stack tab. Coordinates are relative to panel.
+   ------------------------------------------------------------ */
+.project-boxes{
+  inset:0!important;
+  width:auto!important;
+  height:auto!important;
+  max-height:none!important;
+  display:block!important;
+}
+.project-boxes .project-card{
+  position:absolute!important;
+  width:32.25vw!important;
+  height:21.1vh!important;
+  min-height:0!important;
+  padding:3.4vh 1.35vw 2.05vh!important;
+}
+.project-boxes .project-card:nth-child(1){left:53vw!important;top:25vh!important}
+.project-boxes .project-card:nth-child(2){left:18.7vw!important;top:49.1vh!important}
+.project-boxes .project-card:nth-child(3){left:53vw!important;top:49.1vh!important}
+.project-boxes .project-card:nth-child(4){left:18.7vw!important;top:73.5vh!important}
+.project-boxes .project-card:nth-child(5){left:53vw!important;top:73.4vh!important}
+.project-boxes .editorial-card-body{
+  grid-template-columns:35% 65%!important;
+  gap:1.25vw!important;
+}
+.project-boxes .editorial-title{
+  font-size:clamp(1.04rem,1.26vw,1.28rem)!important;
+  line-height:1.05!important;
+}
+.project-boxes .editorial-subtitle{
+  font-size:clamp(.76rem,.91vw,.93rem)!important;
+  line-height:1.08!important;
+}
+.project-boxes .editorial-bullets{
+  font-size:clamp(.68rem,.78vw,.80rem)!important;
+  line-height:1.15!important;
+}
+.project-boxes .card-tag{font-size:clamp(.46rem,.53vw,.55rem)!important;padding:.34vh .64vw .36vh!important}
+.project-boxes .card-tags{margin-top:auto!important;gap:.38vw!important}
+
+/* ------------------------------------------------------------
+   UNIVERSITY — three cards from unipage.jpeg, with requested #9AAE8D.
+   Reference: x=834,w=687; y=365/574/768, h≈169.
+   ------------------------------------------------------------ */
+.engagement-boxes{
+  inset:0!important;
+  width:auto!important;
+  height:auto!important;
+  max-height:none!important;
+  display:block!important;
+}
+.engagement-boxes .engagement-card{
+  position:absolute!important;
+  right:4.95vw!important;
+  width:42.94vw!important;
+  height:16.9vh!important;
+  min-height:0!important;
+  padding:3.25vh 1.8vw 2.2vh!important;
+}
+.engagement-boxes .engagement-card:nth-child(1){top:36.5vh!important;height:16.8vh!important}
+.engagement-boxes .engagement-card:nth-child(2){top:57.4vh!important}
+.engagement-boxes .engagement-card:nth-child(3){top:76.8vh!important}
+.engagement-boxes .editorial-card-body{
+  grid-template-columns:40% 60%!important;
+  gap:1.45vw!important;
+  align-items:center!important;
+  height:100%!important;
+}
+.engagement-boxes .editorial-title{font-size:clamp(1.08rem,1.35vw,1.38rem)!important;line-height:1.03!important}
+.engagement-boxes .editorial-subtitle{font-size:clamp(.76rem,.9vw,.92rem)!important;line-height:1.12!important;font-weight:500!important}
+.engagement-boxes .editorial-bullets{font-size:clamp(.73rem,.86vw,.88rem)!important;line-height:1.13!important}
+
+/* Education: same construction as University, kept in its present lower-right area. */
+.education-boxes{
+  left:auto!important;
+  right:4.95vw!important;
+  top:44vh!important;
+  bottom:auto!important;
+  width:42.94vw!important;
+  height:auto!important;
+  display:block!important;
+}
+.education-boxes .education-card{
+  width:100%!important;
+  height:16.9vh!important;
+  min-height:0!important;
+  padding:3.25vh 1.8vw 2.2vh!important;
+}
+.education-boxes .editorial-card-body{grid-template-columns:40% 60%!important;gap:1.45vw!important;align-items:center!important;height:100%!important}
+.education-boxes .editorial-title{font-size:clamp(1.08rem,1.35vw,1.38rem)!important}
+.education-boxes .editorial-bullets{font-size:clamp(.73rem,.86vw,.88rem)!important;line-height:1.13!important}
+
+/* Restore the slower original transition cadence. */
+.swipe-panel.panel-moving{transition:left var(--dur) var(--ease)!important}
+.slide.animating{transition:transform var(--dur) var(--ease)!important}
+
+@media(max-width:900px){
+  /* Keep mobile readable rather than forcing the desktop Photoshop coordinates. */
+  .work-boxes,.project-boxes,.engagement-boxes,.education-boxes{
+    left:auto!important;right:18px!important;top:auto!important;bottom:28px!important;
+    width:min(390px,64vw)!important;height:auto!important;display:grid!important;
+    grid-template-columns:1fr!important;gap:8px!important;max-height:72vh!important;overflow:auto!important;
+  }
+  .work-boxes .experience-card,.project-boxes .project-card,.engagement-boxes .engagement-card,.education-boxes .education-card{
+    position:relative!important;left:auto!important;right:auto!important;top:auto!important;width:100%!important;height:auto!important;min-height:92px!important;
+  }
+  .editorial-card-body,.work-boxes .editorial-card-body,.project-boxes .editorial-card-body,.engagement-boxes .editorial-card-body,.education-boxes .editorial-card-body{grid-template-columns:1fr!important;gap:5px!important}
+}
+
+/* ============================================================
+   V9 — typography reference + uniform card spacing
+   Reference: font sizing.jpeg
+   ============================================================ */
+:root{
+  /* Revert the stack to the original video/theme palette. */
+  --experience:#ECBC56;
+  --projects:#DC4E4D;
+  --university:#3B844F;
+  --education:#D7EFE1;
+
+  /* Lighter card surfaces derived from the original panel colours. */
+  --experience-card:#F2CF83;
+  --projects-card:#E56F6D;
+  --university-card:#66A176;
+  --education-card:#E2F3EA;
+}
+
+/* Requested proportional landing-page scale increase. */
+.portfolio-wordmark{
+  font-size:clamp(1.25rem,1.55vw,1.65rem)!important;
+  letter-spacing:.09em!important;
+}
+.landing-bottom h1{
+  font-size:clamp(4.3rem,8.5vw,9.3rem)!important;
+}
+
+/* Ensure both the resting slide backgrounds and stack panels use the restored palette. */
+.panel-1{background:var(--experience)!important}
+.panel-2{background:var(--projects)!important}
+.panel-3{background:var(--university)!important}
+.panel-4{background:var(--education)!important}
+.panel-1 .editorial-card{background:var(--experience-card)!important}
+.panel-2 .editorial-card{background:var(--projects-card)!important}
+.panel-3 .editorial-card{background:var(--university-card)!important}
+.panel-4 .editorial-card{background:var(--education-card)!important}
+
+/* Exact card type scale supplied by the user.
+   Heading 1: Bold 27
+   Subheading: Medium 19
+   Date: Regular 14
+   Body Copy: Regular 16, line height & letter spacing auto
+   Skills: Regular 11, padding 5 */
+.editorial-title,
+.work-boxes .editorial-title,
+.project-boxes .editorial-title,
+.engagement-boxes .editorial-title,
+.education-boxes .editorial-title{
+  font-family:'Hanken Grotesk',sans-serif!important;
+  font-size:27px!important;
+  font-weight:700!important;
+  line-height:1.04!important;
+  letter-spacing:normal!important;
+  margin:0 0 7px!important;
+}
+.editorial-subtitle,
+.work-boxes .editorial-subtitle,
+.project-boxes .editorial-subtitle,
+.engagement-boxes .editorial-subtitle,
+.education-boxes .editorial-subtitle{
+  font-family:'Hanken Grotesk',sans-serif!important;
+  font-size:19px!important;
+  font-weight:500!important;
+  line-height:1.08!important;
+  letter-spacing:normal!important;
+  margin:0!important;
+}
+.editorial-date,
+.work-boxes .editorial-date,
+.project-boxes .editorial-date,
+.engagement-boxes .editorial-date,
+.education-boxes .editorial-date{
+  font-family:'Hanken Grotesk',sans-serif!important;
+  font-size:14px!important;
+  font-weight:400!important;
+  line-height:normal!important;
+  letter-spacing:normal!important;
+  margin:5px 0 0!important;
+}
+.editorial-bullets,
+.work-boxes .editorial-bullets,
+.project-boxes .editorial-bullets,
+.engagement-boxes .editorial-bullets,
+.education-boxes .editorial-bullets{
+  font-family:'Hanken Grotesk',sans-serif!important;
+  font-size:16px!important;
+  font-weight:400!important;
+  line-height:normal!important;
+  letter-spacing:normal!important;
+  gap:4px!important;
+}
+.card-tag,
+.project-boxes .card-tag{
+  font-family:'Hanken Grotesk',sans-serif!important;
+  font-size:11px!important;
+  font-weight:400!important;
+  line-height:1!important;
+  letter-spacing:normal!important;
+  padding:5px!important;
+}
+.card-tags{gap:8px!important}
+
+/* Keep the Photoshop card geometry, but give the type enough internal breathing room. */
+.content-box.editorial-card{
+  padding:34px 24px 18px!important;
+}
+.editorial-card-body{
+  gap:24px!important;
+}
+
+/* WHERE I'VE WORKED — three equal cards with a mathematically uniform 35px-ish gap. */
+.work-boxes .experience-card{
+  top:auto!important;
+  height:21.5vh!important;
+}
+.work-boxes .experience-card:nth-child(1){top:19.9vh!important}
+.work-boxes .experience-card:nth-child(2){top:44.9vh!important}
+.work-boxes .experience-card:nth-child(3){top:69.9vh!important}
+.work-boxes .editorial-card-body{grid-template-columns:39.5% 60.5%!important;gap:24px!important}
+
+/* PROJECTS — retain the Photoshop asymmetric composition while making both row and column gutters uniform. */
+.project-boxes .project-card{
+  width:32.25vw!important;
+  height:21.5vh!important;
+  padding:34px 22px 16px!important;
+}
+.project-boxes .project-card:nth-child(1){left:53vw!important;top:24.5vh!important}
+.project-boxes .project-card:nth-child(2){left:18.7vw!important;top:49vh!important}
+.project-boxes .project-card:nth-child(3){left:53vw!important;top:49vh!important}
+.project-boxes .project-card:nth-child(4){left:18.7vw!important;top:73.5vh!important}
+.project-boxes .project-card:nth-child(5){left:53vw!important;top:73.5vh!important}
+.project-boxes .editorial-card-body{grid-template-columns:38% 62%!important;gap:20px!important}
+
+/* UNIVERSITY — three equal cards with a uniform gap. */
+.engagement-boxes .engagement-card{
+  top:auto!important;
+  height:17vh!important;
+  padding:32px 26px 18px!important;
+}
+.engagement-boxes .engagement-card:nth-child(1){top:35.8vh!important}
+.engagement-boxes .engagement-card:nth-child(2){top:56.5vh!important}
+.engagement-boxes .engagement-card:nth-child(3){top:77.2vh!important}
+.engagement-boxes .editorial-card-body{grid-template-columns:40% 60%!important;gap:24px!important}
+
+/* EDUCATION — same typography and box treatment as University. */
+.education-boxes .education-card{
+  height:17vh!important;
+  padding:32px 26px 18px!important;
+}
+.education-boxes .editorial-card-body{grid-template-columns:40% 60%!important;gap:24px!important}
+
+/* Desktop type scale is deliberate; mobile gets a compact derivative to prevent overflow. */
+@media(max-width:900px){
+  .editorial-title,
+  .work-boxes .editorial-title,
+  .project-boxes .editorial-title,
+  .engagement-boxes .editorial-title,
+  .education-boxes .editorial-title{font-size:20px!important}
+  .editorial-subtitle,
+  .work-boxes .editorial-subtitle,
+  .project-boxes .editorial-subtitle,
+  .engagement-boxes .editorial-subtitle,
+  .education-boxes .editorial-subtitle{font-size:15px!important}
+  .editorial-date{font-size:12px!important}
+  .editorial-bullets{font-size:13px!important}
+  .card-tag,.project-boxes .card-tag{font-size:10px!important;padding:4px!important}
+  .content-box.editorial-card{padding:28px 14px 14px!important}
+}
+
+/* ============================================================
+   V10 — screenshot-faithful card typography + overlap correction
+   Reference geometry: exppage.jpeg, Projectspage.jpeg, unipage.jpeg
+   This block intentionally overrides V9's oversized fixed typography.
+   ============================================================ */
+
+:root{
+  --experience:#ECBC56;
+  --projects:#DC4E4D;
+  --university:#3B844F;
+  --education:#D7EFE1;
+  --experience-card:#F1CF85;
+  --projects-card:#E37876;
+  --university-card:#70A67E;
+  --education-card:#E2F3EA;
+}
+
+/* Slight proportional lift requested for the landing page. */
+.portfolio-wordmark{
+  font-size:clamp(1.36rem,1.72vw,1.82rem)!important;
+}
+.landing-bottom h1{
+  font-size:clamp(4.65rem,9.15vw,9.9rem)!important;
+}
+
+/* Reset the V9 font forcing. The Photoshop cards use a deliberately compact
+   hierarchy so the information sits inside the fixed compositions. */
+.content-box.editorial-card{
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+  min-width:0!important;
+  overflow:hidden!important;
+}
+.editorial-card-body,
+.work-boxes .editorial-card-body,
+.project-boxes .editorial-card-body,
+.engagement-boxes .editorial-card-body,
+.education-boxes .editorial-card-body{
+  min-width:0!important;
+  min-height:0!important;
+}
+.editorial-intro,.editorial-details{min-width:0!important;overflow-wrap:anywhere!important}
+
+/* Base card typography: compact, clean and visually matched to the renders. */
+.editorial-title,
+.work-boxes .editorial-title,
+.project-boxes .editorial-title,
+.engagement-boxes .editorial-title,
+.education-boxes .editorial-title{
+  font-size:clamp(16px,1.34vw,21px)!important;
+  font-weight:700!important;
+  line-height:1.03!important;
+  letter-spacing:-.025em!important;
+  margin:0 0 5px!important;
+}
+.editorial-subtitle,
+.work-boxes .editorial-subtitle,
+.project-boxes .editorial-subtitle,
+.engagement-boxes .editorial-subtitle,
+.education-boxes .editorial-subtitle{
+  font-size:clamp(12px,.97vw,15px)!important;
+  font-weight:600!important;
+  line-height:1.12!important;
+  margin:0!important;
+}
+.editorial-date,
+.work-boxes .editorial-date,
+.project-boxes .editorial-date,
+.engagement-boxes .editorial-date,
+.education-boxes .editorial-date{
+  font-size:clamp(10px,.76vw,12px)!important;
+  font-weight:500!important;
+  line-height:1.1!important;
+  margin:4px 0 0!important;
+}
+.editorial-bullets,
+.work-boxes .editorial-bullets,
+.project-boxes .editorial-bullets,
+.engagement-boxes .editorial-bullets,
+.education-boxes .editorial-bullets{
+  font-size:clamp(11px,.9vw,14px)!important;
+  font-weight:500!important;
+  line-height:1.18!important;
+  gap:3px!important;
+  margin:0!important;
+  padding:0!important;
+}
+.editorial-bullets li{padding-left:1.05em!important;overflow-wrap:anywhere!important}
+.card-tag,.project-boxes .card-tag{
+  font-size:clamp(8px,.64vw,10px)!important;
+  font-weight:500!important;
+  line-height:1!important;
+  padding:4px 10px!important;
+  white-space:nowrap!important;
+}
+.card-tags{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:6px!important;
+  margin-top:auto!important;
+  min-height:18px!important;
+}
+
+/* WHERE I'VE WORKED — exact three-card rhythm from the render.
+   21.0vh cards + 4.15vh gap = uniform spacing. */
+.work-boxes{
+  position:absolute!important;
+  inset:auto 4.0vw auto auto!important;
+  top:19.8vh!important;
+  width:42.9vw!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  grid-template-rows:repeat(3,21vh)!important;
+  row-gap:4.15vh!important;
+  max-height:none!important;
+}
+.work-boxes .experience-card,
+.work-boxes .experience-card:nth-child(1),
+.work-boxes .experience-card:nth-child(2),
+.work-boxes .experience-card:nth-child(3){
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:21vh!important;
+  min-height:0!important;
+  padding:4.0vh 1.55vw 2.15vh!important;
+}
+.work-boxes .editorial-card-body{
+  grid-template-columns:38.5% 61.5%!important;
+  gap:1.35vw!important;
+  align-items:start!important;
+}
+.work-boxes .editorial-title{font-size:clamp(17px,1.38vw,22px)!important}
+.work-boxes .editorial-subtitle{font-size:clamp(12px,.96vw,15px)!important}
+.work-boxes .editorial-date{font-size:clamp(10px,.74vw,12px)!important}
+.work-boxes .editorial-bullets{font-size:clamp(11px,.87vw,13.5px)!important;line-height:1.16!important}
+
+/* PROJECTS — screenshot's asymmetric 1 + 2 + 2 composition, with identical
+   card sizes and identical horizontal/vertical gutters. */
+.project-boxes{
+  position:absolute!important;
+  inset:auto!important;
+  left:18.7vw!important;
+  top:24.5vh!important;
+  width:66.55vw!important;
+  height:auto!important;
+  max-height:none!important;
+  display:grid!important;
+  grid-template-columns:repeat(2,32.25vw)!important;
+  grid-template-rows:repeat(3,21.1vh)!important;
+  column-gap:2.05vw!important;
+  row-gap:3.5vh!important;
+}
+.project-boxes .project-card,
+.project-boxes .project-card:nth-child(1),
+.project-boxes .project-card:nth-child(2),
+.project-boxes .project-card:nth-child(3),
+.project-boxes .project-card:nth-child(4),
+.project-boxes .project-card:nth-child(5){
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:21.1vh!important;
+  min-height:0!important;
+  padding:4.0vh 1.35vw 1.9vh!important;
+}
+.project-boxes .project-card:nth-child(1){grid-column:2;grid-row:1}
+.project-boxes .project-card:nth-child(2){grid-column:1;grid-row:2}
+.project-boxes .project-card:nth-child(3){grid-column:2;grid-row:2}
+.project-boxes .project-card:nth-child(4){grid-column:1;grid-row:3}
+.project-boxes .project-card:nth-child(5){grid-column:2;grid-row:3}
+.project-boxes .editorial-card-body{
+  grid-template-columns:36.5% 63.5%!important;
+  gap:1.12vw!important;
+  align-items:start!important;
+}
+.project-boxes .editorial-title{font-size:clamp(15px,1.17vw,18.5px)!important;line-height:1.06!important;margin-bottom:4px!important}
+.project-boxes .editorial-subtitle{font-size:clamp(11px,.83vw,13px)!important;line-height:1.1!important}
+.project-boxes .editorial-bullets{font-size:clamp(10.5px,.78vw,12.5px)!important;line-height:1.18!important}
+.project-boxes .card-tag{font-size:clamp(7.5px,.57vw,9px)!important;padding:4px 9px!important}
+.project-boxes .card-tags{gap:5px!important}
+
+/* UNIVERSITY — exact three equal rows, screenshot proportions and a compact
+   enough heading to keep the first title on two lines at narrower desktops. */
+.engagement-boxes{
+  position:absolute!important;
+  inset:auto 4.95vw auto auto!important;
+  top:36.5vh!important;
+  width:42.94vw!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  grid-template-rows:repeat(3,16.4vh)!important;
+  row-gap:3.85vh!important;
+  max-height:none!important;
+}
+.engagement-boxes .engagement-card,
+.engagement-boxes .engagement-card:nth-child(1),
+.engagement-boxes .engagement-card:nth-child(2),
+.engagement-boxes .engagement-card:nth-child(3){
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:16.4vh!important;
+  min-height:0!important;
+  padding:3.8vh 1.72vw 1.7vh!important;
+}
+.engagement-boxes .editorial-card-body{
+  grid-template-columns:40% 60%!important;
+  gap:1.4vw!important;
+  align-items:center!important;
+  height:100%!important;
+}
+.engagement-boxes .editorial-title{font-size:clamp(15px,1.18vw,18.5px)!important;line-height:1.04!important;margin-bottom:5px!important}
+.engagement-boxes .editorial-subtitle{font-size:clamp(11px,.84vw,13px)!important;line-height:1.12!important}
+.engagement-boxes .editorial-bullets{font-size:clamp(10.5px,.8vw,12.7px)!important;line-height:1.18!important}
+
+/* EDUCATION — same visual language as University; centered in its current panel. */
+.education-boxes{
+  position:absolute!important;
+  inset:auto 4.95vw auto auto!important;
+  top:44vh!important;
+  width:42.94vw!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  grid-template-rows:16.4vh!important;
+  max-height:none!important;
+}
+.education-boxes .education-card{
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:16.4vh!important;
+  min-height:0!important;
+  padding:3.8vh 1.72vw 1.7vh!important;
+}
+.education-boxes .editorial-card-body{
+  grid-template-columns:40% 60%!important;
+  gap:1.4vw!important;
+  align-items:center!important;
+  height:100%!important;
+}
+.education-boxes .editorial-title{font-size:clamp(15px,1.18vw,18.5px)!important;line-height:1.04!important}
+.education-boxes .editorial-bullets{font-size:clamp(10.5px,.8vw,12.7px)!important;line-height:1.18!important}
+
+/* Very narrow desktop/laptop windows: scale the card type down before the mobile
+   reflow breakpoint, preserving the Photoshop layout without text collisions. */
+@media (min-width:901px) and (max-width:1180px){
+  .work-boxes .editorial-title{font-size:16px!important}
+  .work-boxes .editorial-subtitle{font-size:12px!important}
+  .work-boxes .editorial-date{font-size:10px!important}
+  .work-boxes .editorial-bullets{font-size:11px!important}
+  .project-boxes .editorial-title{font-size:14px!important}
+  .project-boxes .editorial-subtitle{font-size:10.5px!important}
+  .project-boxes .editorial-bullets{font-size:10px!important}
+  .engagement-boxes .editorial-title,.education-boxes .editorial-title{font-size:14px!important}
+  .engagement-boxes .editorial-subtitle{font-size:10.5px!important}
+  .engagement-boxes .editorial-bullets,.education-boxes .editorial-bullets{font-size:10px!important}
+  .card-tag,.project-boxes .card-tag{font-size:7.5px!important;padding:3px 7px!important}
+}
+
+/* ============================================================
+   V11 — body-copy clarity + larger tags + education baseline
+   ============================================================ */
+/* Increase supporting copy without disturbing the Photoshop card hierarchy. */
+.work-boxes .editorial-bullets{
+  font-size:clamp(13px,1vw,15px)!important;
+  line-height:1.20!important;
+  font-weight:500!important;
+}
+.project-boxes .editorial-bullets{
+  font-size:clamp(12px,.90vw,14px)!important;
+  line-height:1.20!important;
+  font-weight:500!important;
+}
+.engagement-boxes .editorial-bullets,
+.education-boxes .editorial-bullets{
+  font-size:clamp(12px,.90vw,14px)!important;
+  line-height:1.20!important;
+  font-weight:500!important;
+}
+
+/* Slightly larger, clearer pill labels while preserving a single-line tag rhythm. */
+.card-tag,
+.project-boxes .card-tag{
+  font-size:clamp(9px,.72vw,11px)!important;
+  line-height:1!important;
+  padding:5px 11px!important;
+  font-weight:500!important;
+}
+.card-tags,
+.project-boxes .card-tags{
+  gap:7px!important;
+  min-height:22px!important;
+}
+
+/* Align the single Education card with the bottom row of the other stacked pages. */
+.education-boxes{
+  top:76.8vh!important;
+}
+
+/* Keep the copy visibly larger on common laptop widths too. */
+@media (min-width:901px) and (max-width:1180px){
+  .work-boxes .editorial-bullets{font-size:12.5px!important;line-height:1.18!important}
+  .project-boxes .editorial-bullets,
+  .engagement-boxes .editorial-bullets,
+  .education-boxes .editorial-bullets{font-size:11.5px!important;line-height:1.18!important}
+  .card-tag,.project-boxes .card-tag{font-size:9px!important;padding:4px 9px!important}
+}
