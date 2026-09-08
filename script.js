@@ -126,34 +126,38 @@
   function nextSlide(){ return current<TOTAL-1 ? goToSlide(current+1) : false; }
   function prevSlide(){ return current>0 ? goToSlide(current-1) : false; }
 
-  /* One gesture, one page. Momentum remains locked until the stream is quiet
-     AND the 800 ms transition has completed. No accumulator/click prerequisite. */
+  /* One gesture, one page. Recognize a fresh gesture from the wheel input
+     itself so a pending unlock timer cannot keep swallowing new scrolls. */
   let wheelLocked=false;
-  let lastWheelAt=0;
-  let unlockTimer=null;
+  let lastWheelAt=-Infinity;
+  let lastWheelDelta=0;
+  const WHEEL_IDLE=180;
   function normalizedDelta(e){
     let d=e.deltaY;
     if(e.deltaMode===1)d*=16;
     else if(e.deltaMode===2)d*=window.innerHeight;
     return d;
   }
-  function scheduleUnlock(){
-    clearTimeout(unlockTimer);
-    unlockTimer=setTimeout(function check(){
-      if(isAnimating || performance.now()-lastWheelAt<230){ unlockTimer=setTimeout(check,80); return; }
-      wheelLocked=false;
-    },260);
-  }
   function onWheel(e){
-    e.preventDefault();
-    lastWheelAt=performance.now();
-    scheduleUnlock();
-    if(wheelLocked||isAnimating) return;
+    if(e.ctrlKey) return;
     const dy=normalizedDelta(e);
     if(Math.abs(dy)<2 || Math.abs(e.deltaX)>Math.abs(e.deltaY)*1.4) return;
+    e.preventDefault();
+
+    const now=performance.now();
+    const previousMagnitude=Math.abs(lastWheelDelta);
+    const freshGesture=now-lastWheelAt>WHEEL_IDLE
+      || Math.sign(dy)!==Math.sign(lastWheelDelta)
+      || (previousMagnitude<=12 && Math.abs(dy)>=Math.max(16,previousMagnitude*2));
+    lastWheelAt=now;
+    lastWheelDelta=dy;
+
+    // Consume animation-time input and its momentum without skipping pages.
+    if(isAnimating){ wheelLocked=true; return; }
+    if(freshGesture) wheelLocked=false;
+    if(wheelLocked) return;
     wheelLocked=true;
     if(dy>0) nextSlide(); else prevSlide();
-    scheduleUnlock();
   }
   window.addEventListener('wheel',onWheel,{passive:false,capture:true});
 
