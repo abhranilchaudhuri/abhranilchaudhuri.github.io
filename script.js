@@ -95,6 +95,7 @@
   }
 
   function goToSlide(target){
+    if(window.portfolioMobile?.isActive()) return window.portfolioMobile.goTo(target);
     if(target<0||target>=TOTAL||target===current||isAnimating) return false;
     isAnimating=true;
     if(isStackIndex(current)&&isStackIndex(target)&&Math.abs(target-current)===1) animateStackStep(target);
@@ -103,6 +104,7 @@
   }
 
   function jumpToSlide(target){
+    if(window.portfolioMobile?.isActive()) return window.portfolioMobile.goTo(target);
     if(target<0||target>=TOTAL||target===current||isAnimating) return false;
     isAnimating=true;
     const outSlide=visualSlideForIndex(current), inSlide=visualSlideForIndex(target);
@@ -139,6 +141,7 @@
     return d;
   }
   function onWheel(e){
+    if(window.portfolioMobile?.isActive()) return;
     if(e.ctrlKey) return;
     const dy=normalizedDelta(e);
     if(Math.abs(dy)<2 || Math.abs(e.deltaX)>Math.abs(e.deltaY)*1.4) return;
@@ -162,6 +165,7 @@
   window.addEventListener('wheel',onWheel,{passive:false,capture:true});
 
   document.addEventListener('keydown',e=>{
+    if(window.portfolioMobile?.isActive()) return;
     if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();nextSlide();}
     else if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();prevSlide();}
   });
@@ -169,6 +173,7 @@
   let tsY=0,tsX=0;
   document.addEventListener('touchstart',e=>{tsY=e.changedTouches[0].screenY;tsX=e.changedTouches[0].screenX},{passive:true});
   document.addEventListener('touchend',e=>{
+    if(window.portfolioMobile?.isActive()) return;
     if(isAnimating)return;
     const dy=tsY-e.changedTouches[0].screenY,dx=tsX-e.changedTouches[0].screenX;
     if(Math.abs(dy)>Math.abs(dx)){if(dy>50)nextSlide();else if(dy<-50)prevSlide();}
@@ -182,5 +187,5 @@
     slides[i].classList.remove('active','transitioning'); slides[i].setAttribute('aria-hidden','true');
   }
   setStackStateByIndex(STACK_FIRST); updateDots(current);
-  window.__portfolio={goTo:jumpToSlide,next:nextSlide,prev:prevSlide,current:()=>current};
+  window.__portfolio={goTo:jumpToSlide,next:nextSlide,prev:prevSlide,current:()=>current,isAnimating:()=>isAnimating};
 })();
